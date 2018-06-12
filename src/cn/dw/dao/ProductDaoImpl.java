@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.dw.model.Product;
 import cn.dw.utils.JdbcUtlis;
@@ -17,8 +19,12 @@ public class ProductDaoImpl extends BaseDaoImpl {
 		// product.setPrice(8.88);
 		// product.setRemark("父类测试");
 		// productDao.save(product);
-		Product product=productDao.queryByid(1);
-		System.out.println(product);
+//		productDao.queryByName("xxx",1,10);
+//		System.out.println(product);
+		List<Product> proList = productDao.queryByName("xx");
+		for(Product temp:proList) {
+			System.out.println(temp.toString());
+		}
 	}
 
 	public void save(Product product) {
@@ -66,4 +72,38 @@ public class ProductDaoImpl extends BaseDaoImpl {
 		}
 
 	}
+
+	public List<Product> queryByName(String name) {
+		Connection connection = JdbcUtlis.getConnection();
+		PreparedStatement pre = null;
+		ResultSet rs = null;
+		String sql = "select * from product where name like ?";
+		List<Product> proList=new ArrayList<Product>();
+		try {
+			pre = connection.prepareStatement(sql);
+			pre.setString(1, "%" + name + "%");
+			rs = pre.executeQuery();
+			while(rs.next()) {
+				Product product=new Product();
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("name"));
+				product.setPrice(rs.getDouble("price"));
+				product.setRemark(rs.getString("remark"));
+				product.setDate(rs.getDate("date"));
+				proList.add(product);
+			}
+			 return proList;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+	}
+
 }
