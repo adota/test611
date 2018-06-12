@@ -8,6 +8,12 @@ public class Product {
 	private String name;
 	private Double price;
 	private String remark;
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", remark=" + remark + ", date=" + date
+				+ "]";
+	}
+
 	private Date date;
 
 	public Integer getId() {
