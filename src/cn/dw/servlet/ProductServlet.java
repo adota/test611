@@ -1,8 +1,9 @@
 package cn.dw.servlet;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +18,19 @@ import cn.dw.service.ProductServiceImpl;
 public class ProductServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+				//1、获取数据
+		String keyword=request.getParameter("keyword");
+		//2、操作数据调用查询方法
+		ProductServiceImpl productService=new ProductServiceImpl();
+		List<Product> proList = productService.query(keyword);
+		request.setAttribute("proList", proList);
+		//3、转发页面
+		RequestDispatcher dispatcher=request.getRequestDispatcher("/query.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductServiceImpl productService=new ProductServiceImpl();
+		ProductServiceImpl productService=new ProductServiceImpl();	
 		Product product=new Product();
 		product.setName(request.getParameter("name"));
 		product.setPrice(Double.parseDouble(request.getParameter("price")));
