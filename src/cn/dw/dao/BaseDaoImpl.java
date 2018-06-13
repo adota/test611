@@ -38,15 +38,15 @@ public abstract class BaseDaoImpl<T> {
 		Connection connection = JdbcUtlis.getConnection();
 		PreparedStatement pre = null;
 		ResultSet rs = null;
-		List<T> modelList=new ArrayList<T>();
+		List<T> modelList = new ArrayList<T>();
 		try {
 			pre = connection.prepareStatement(sql);
 			pre.setObject(1, keyword);
 			rs = pre.executeQuery();
-			while(rs.next()) {				
+			while (rs.next()) {
 				modelList.add(this.getRow(rs));
 			}
-			 return modelList;
+			return modelList;
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -59,5 +59,5 @@ public abstract class BaseDaoImpl<T> {
 		}
 
 	}
-	
+
 }

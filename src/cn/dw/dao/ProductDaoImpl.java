@@ -8,14 +8,6 @@ import cn.dw.model.Product;
 
 public class ProductDaoImpl extends BaseDaoImpl<Product> {
 
-	public static void main(String[] args) {
-		ProductDaoImpl productDao = new ProductDaoImpl();
-//		List<Product> proList=productDao.queryByName("xx");
-//		for(Product temp:proList) {
-//			System.out.println(temp);
-//		}
-		System.out.println(productDao.queryByid(1));
-	}
 
 	public void save(Product product) {
 		String sql = "insert into product (name,price,remark)  values (?,?,?)";
@@ -36,8 +28,8 @@ public class ProductDaoImpl extends BaseDaoImpl<Product> {
 
 	public Product queryByid(int id) {
 		String sql = "select * from product where id=?";
-		List<Product>  proList=super.query(sql, id);
-		return proList.size()==0?null:proList.get(0);
+		List<Product> proList = super.query(sql, id);
+		return proList.size() == 0 ? null : proList.get(0);
 	}
 
 	public List<Product> queryByName(String name) {
