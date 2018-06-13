@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.dw.utils.JdbcUtlis;
 
-public class BaseDaoImpl {
-
-	
+public abstract class BaseDaoImpl<T> {
 
 	protected void excuteUpdate(String sql, Object[] param) {
 
@@ -32,16 +32,22 @@ public class BaseDaoImpl {
 		}
 	}
 
-	protected ResultSet excuteQuery(String sql,Object obj) {
-		ResultSet rs;
+	protected abstract T getRow(ResultSet rs) throws SQLException;
+
+	protected List<T> query(String sql, Object keyword) {
 		Connection connection = JdbcUtlis.getConnection();
 		PreparedStatement pre = null;
+		ResultSet rs = null;
+		List<T> modelList=new ArrayList<T>();
 		try {
 			pre = connection.prepareStatement(sql);
-			pre.setObject(1, obj);
+			pre.setObject(1, keyword);
 			rs = pre.executeQuery();
-			
-			return rs;
+			while(rs.next()) {				
+				modelList.add(this.getRow(rs));
+			}
+			 return modelList;
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -51,5 +57,7 @@ public class BaseDaoImpl {
 				throw new RuntimeException(e);
 			}
 		}
+
 	}
+	
 }
