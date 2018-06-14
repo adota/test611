@@ -1,6 +1,5 @@
 package cn.dw.servlet;
 
-import java.awt.Window.Type;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,8 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.taglibs.standard.tag.common.fmt.RequestEncodingSupport;
+import javax.servlet.http.HttpSession;
 
 import cn.dw.model.Product;
 import cn.dw.service.ProductServiceImpl;
@@ -20,7 +18,7 @@ import cn.dw.service.ProductServiceImpl;
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private String keyword;
+//	private String keyword;
 	private ProductServiceImpl productService = new ProductServiceImpl();
 
 	public ProductServlet() {
@@ -34,9 +32,12 @@ public class ProductServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String keyword=null;
 		String type = request.getParameter("type");
+		HttpSession session = request.getSession();
 		if (type.equals("query")) {
 			keyword = request.getParameter("keyword");
+			session.setAttribute("keyword", keyword);
 			List<Product> proList = productService.query(keyword);
 			request.setAttribute("proList", proList);
 			System.out.println(proList.toString());
@@ -53,7 +54,7 @@ public class ProductServlet extends HttpServlet {
 			String id = request.getParameter("id");
 			productService.delete(Integer.parseInt(id));
 			
-			List<Product> proList = productService.query(keyword);
+			List<Product> proList = productService.query((String)session.getAttribute("keyword"));
 			System.out.println(keyword);
 			request.setAttribute("proList", proList);
 			System.out.println(proList.toString());
