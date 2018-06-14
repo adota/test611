@@ -19,3 +19,6 @@ select * from product;
 select * from product where id=1
 
 show variables like 'character_set_database';
+
+alter database character set gbk;
+show create database mysql;
