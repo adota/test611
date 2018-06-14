@@ -11,6 +11,7 @@
 		价格：<input type="text" name="price" /><br/>
 		备注：<textarea rows="5" cols="30" name="remark"></textarea><br/>
 		提交：<button type="submit" >提交</button><br/>
+		<input type="hidden" name="type"  value="save" /> 
 	</form>
 	</body>
 </html>
