@@ -24,5 +24,12 @@ public class ProductServiceImpl {
 	public void delete(int id) {
 		productDao.delete(id);
 	}
+	
+
+	public Product queryByid(int id) {
+		return productDao.queryByid(id);
+	}
+
+	
 
 }

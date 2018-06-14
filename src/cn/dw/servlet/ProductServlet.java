@@ -18,7 +18,7 @@ import cn.dw.service.ProductServiceImpl;
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-//	private String keyword;
+	// private String keyword;
 	private ProductServiceImpl productService = new ProductServiceImpl();
 
 	public ProductServlet() {
@@ -32,7 +32,7 @@ public class ProductServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String keyword=null;
+		String keyword = null;
 		String type = request.getParameter("type");
 		HttpSession session = request.getSession();
 		if (type.equals("query")) {
@@ -53,13 +53,28 @@ public class ProductServlet extends HttpServlet {
 		} else if (type.equals("delete")) {
 			String id = request.getParameter("id");
 			productService.delete(Integer.parseInt(id));
-			
-			List<Product> proList = productService.query((String)session.getAttribute("keyword"));
+			List<Product> proList = productService.query((String) session.getAttribute("keyword"));
 			System.out.println(keyword);
 			request.setAttribute("proList", proList);
 			System.out.println(proList.toString());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/query.jsp");
 			dispatcher.forward(request, response);
+		}else if(type.equals("getById")) {
+			String id=request.getParameter("id");
+			Product product2 = productService.queryByid(Integer.parseInt(id));
+			request.setAttribute("product", product2);
+			System.out.println(product2.toString());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/update.jsp");
+			dispatcher.forward(request, response);
+		}
+		else if(type.equals("update")) {
+			Product product = new Product();
+			product.setName(request.getParameter("name"));
+			product.setPrice(Double.parseDouble(request.getParameter("price")));
+			product.setRemark(request.getParameter("remark"));
+			product.setId(Integer.parseInt(request.getParameter("id")));
+			productService.update(product);
+			response.sendRedirect("/test611/query.jsp");
 		}
 
 	}
