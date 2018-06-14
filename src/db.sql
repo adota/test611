@@ -17,3 +17,5 @@ insert into product (name,price,remark) values ('Iphone6',6000.00,'这里是简�
 
 select * from product; 
 select * from product where id=1
+
+show variables like 'character_set_database';

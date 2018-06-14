@@ -6,6 +6,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cn.dw.model.Product;
+
 public class ProductDaoImplTest {
 
 	@BeforeClass
@@ -18,7 +20,12 @@ public class ProductDaoImplTest {
 
 	@Test
 	public void testSave() {
-		fail("Not yet implemented");
+		ProductDaoImpl productDao=new ProductDaoImpl();
+		Product product=new Product();
+		product.setName("xxx");
+		product.setPrice(3.11);
+		product.setRemark("测试一下");
+		productDao.save(product);
 	}
 
 	@Test
