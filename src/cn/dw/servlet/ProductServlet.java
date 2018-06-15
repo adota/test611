@@ -36,13 +36,13 @@ public class ProductServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		HttpSession session = request.getSession();
 		if (type.equals("query")) {
-			keyword = request.getParameter("keyword");
-			session.setAttribute("keyword", keyword);
-			List<Product> proList = productService.query(keyword);
-			request.setAttribute("proList", proList);
-			System.out.println(proList.toString());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/query.jsp");
-			dispatcher.forward(request, response);
+//			keyword = request.getParameter("keyword");
+//			session.setAttribute("keyword", keyword);
+//			List<Product> proList = productService.query(keyword);
+//			request.setAttribute("proList", proList);
+//			System.out.println(proList.toString());
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/query.jsp");
+//			dispatcher.forward(request, response);
 		} else if (type.equals("save")) {
 			Product product = new Product();
 			product.setName(request.getParameter("name"));
@@ -51,21 +51,21 @@ public class ProductServlet extends HttpServlet {
 			productService.save(product);
 			response.sendRedirect("/test611/query.jsp");
 		} else if (type.equals("delete")) {
-			String id = request.getParameter("id");
-			productService.delete(Integer.parseInt(id));
-			List<Product> proList = productService.query((String) session.getAttribute("keyword"));
-			System.out.println(keyword);
-			request.setAttribute("proList", proList);
-			System.out.println(proList.toString());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/query.jsp");
-			dispatcher.forward(request, response);
+//			String id = request.getParameter("id");
+//			productService.delete(Integer.parseInt(id));
+//			List<Product> proList = productService.query((String) session.getAttribute("keyword"));
+//			System.out.println(keyword);
+//			request.setAttribute("proList", proList);
+//			System.out.println(proList.toString());
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/query.jsp");
+//			dispatcher.forward(request, response);
 		}else if(type.equals("getById")) {
-			String id=request.getParameter("id");
-			Product product2 = productService.queryByid(Integer.parseInt(id));
-			request.setAttribute("product", product2);
-			System.out.println(product2.toString());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/update.jsp");
-			dispatcher.forward(request, response);
+//			String id=request.getParameter("id");
+//			Product product2 = productService.queryByid(Integer.parseInt(id));
+//			request.setAttribute("product", product2);
+//			System.out.println(product2.toString());
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/update.jsp");
+//			dispatcher.forward(request, response);
 		}
 		else if(type.equals("update")) {
 			Product product = new Product();
