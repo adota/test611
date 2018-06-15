@@ -1,6 +1,6 @@
 package cn.dw.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -46,12 +46,15 @@ public class ProductDaoImplTest {
 
 	@Test
 	public void testQueryByid() {
-		fail("Not yet implemented");
+		System.out.println(productService.queryByid(1));
 	}
 
 	@Test
 	public void testQueryByName() {
-		fail("Not yet implemented");
+		for(Product temp:productService.query("xx")) {
+			System.out.println(temp);
+		}
+		
 	}
 
 }

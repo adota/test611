@@ -1,5 +1,8 @@
 package cn.dw.dao;
 
+import java.util.List;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import cn.dw.model.Product;
@@ -28,18 +31,16 @@ public class ProductDaoImpl {
 		jdbcTemplate.update(sql, new Object[] { id });
 	}
 
-	// public Product queryByid(int id) {
-	// String sql = "select * from product where id=?";
-	// List<Product> proList = super.query(sql, id);
-	// return proList.size() == 0 ? null : proList.get(0);
-	// }
-	//
-	// public List<Product> queryByName(String name) {
-	// String sql = "select * from product where name like ?";
-	// String keyword = "%" + name + "%";
-	// List<Product> proList = super.query(sql, keyword);
-	// return proList;
-	// }
+	public Product queryByid(int id) {
+		String sql = "select * from product where id=?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new BeanPropertyRowMapper<Product>(Product.class));
+	}
+
+	public List<Product> queryByName(String name) {
+		String sql = "select * from product where name like ?";
+		String keyword = "%" + name + "%";
+		return jdbcTemplate.query(sql, new Object[] { keyword }, new BeanPropertyRowMapper<Product>(Product.class));
+	}
 
 	// @Override
 	// public Product getRow(ResultSet rs) throws SQLException {

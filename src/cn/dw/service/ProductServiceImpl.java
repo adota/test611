@@ -1,5 +1,7 @@
 package cn.dw.service;
 
+import java.util.List;
+
 import cn.dw.dao.ProductDaoImpl;
 import cn.dw.model.Product;
 
@@ -43,9 +45,9 @@ public class ProductServiceImpl {
 		productDao.save(product);
 	}
 
-	// public List<Product> query(String name) {
-	// return productDao.queryByName(name);
-	// }
+	public List<Product> query(String name) {
+		return productDao.queryByName(name);
+	}
 
 	public void update(Product product) {
 		productDao.update(product);
@@ -55,8 +57,8 @@ public class ProductServiceImpl {
 		productDao.delete(id);
 	}
 
-	// public Product queryByid(int id) {
-	// return productDao.queryByid(id);
-	// }
+	public Product queryByid(int id) {
+		return productDao.queryByid(id);
+	}
 
 }
