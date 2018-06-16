@@ -2,9 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
 	   xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<!-- 1、配置c3p0 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass"  value="com.mysql.jdbc.Driver"/>
@@ -24,4 +28,28 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="productService" class="cn.dw.service.ProductServiceImpl" >
 		<property name="productDao"  ref="productDao"/>
 	</bean>
+	
+	<!-- 1、事务来自connection，使用datasource管理connection，配置事务管理器 -->
+	<bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 2、配置通知 -->
+	<tx:advice transaction-manager="tm" id="ad" >
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 3、配置切面表达式 -->
+	<aop:config>
+		<!-- 3.1、pointcut：切面表达式，可以定义向service层切入事务
+				 service.*.*所有类的所有方法
+				 (..)有无参数都行 -->
+		<aop:pointcut expression="execution(* cn.dw.service.*.*(..))" id="pt"/>
+		<aop:advisor advice-ref="ad" pointcut-ref="pt"/>
+	</aop:config>
+	
 </beans>
