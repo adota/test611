@@ -21,13 +21,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name="dataSource" ref="dataSource" /> 
 	</bean>
 	
-	<bean id="productDao" class="cn.dw.dao.ProductDaoImpl">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-	
-	<bean id="productService" class="cn.dw.service.ProductServiceImpl" >
-		<property name="productDao"  ref="productDao"/>
-	</bean>
 	
 	<!-- 1、事务来自connection，使用datasource管理connection，配置事务管理器 -->
 	<bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -52,4 +45,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<aop:advisor advice-ref="ad" pointcut-ref="pt"/>
 	</aop:config>
 	
+	<!-- 添加注解扫描 -->
+	<context:component-scan base-package="cn.dw.dao" />	
+	<context:component-scan base-package="cn.dw.service" />
 </beans>

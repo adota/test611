@@ -2,11 +2,17 @@ package cn.dw.service;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
 import cn.dw.dao.ProductDaoImpl;
 import cn.dw.model.Product;
 
+@Component(value="productService")
 public class ProductServiceImpl {
 
+	@Resource(name="productDao")
 	private ProductDaoImpl productDao;
 
 	// private String keyword;
@@ -37,12 +43,9 @@ public class ProductServiceImpl {
 	// System.out.println(product.getName());
 	// }
 
-	public void setProductDao(ProductDaoImpl productDao) {
-		this.productDao = productDao;
-	}
-
 	public void save(Product product) {
 		productDao.save(product);
+//		 Integer.parseInt("xxx");
 	}
 
 	public List<Product> query(String name) {

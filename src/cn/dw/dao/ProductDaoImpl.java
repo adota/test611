@@ -2,18 +2,19 @@ package cn.dw.dao;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import cn.dw.model.Product;
 
+@Component(value="productDao")
 public class ProductDaoImpl {
 
+	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 
 	public void save(Product product) {
 		String sql = "insert into product (name,price,remark)  values (?,?,?)";

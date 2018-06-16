@@ -30,7 +30,6 @@ public class ProductDaoImplTest {
 		product.setName("zzzzz");
 		product.setPrice(3.11);
 		product.setRemark("测试一下");
-		System.out.println(productService);
 		productService.save(product);
 	}
 
